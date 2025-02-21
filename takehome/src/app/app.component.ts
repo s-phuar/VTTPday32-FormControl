@@ -25,6 +25,7 @@ export class AppComponent implements OnInit{
 
     //load tasklist from local storage -> DevTools/application
     const savedTaskList = localStorage.getItem('taskList');
+    // localStorage.removeItem('taskList') //clears the local storage
     //truthy check
     if (savedTaskList) {
       // Parse the data and populate the task list
@@ -70,7 +71,7 @@ export class AppComponent implements OnInit{
   private saveToLocalStorage() {
     // Convert the task list to a plain array and serialize it
     const taskArray = this.taskList.getRawValue(); // this will return a plain JS object
-    localStorage.setItem('taskList', JSON.stringify(taskArray)); // save to localStorage
+    localStorage.setItem('taskList', JSON.stringify(taskArray)); // stringify into json string to store in local storage
   }
   
 
