@@ -1,0 +1,121 @@
+<h1>ToDo</h1>
+
+<form [formGroup]="baseForm" (submit)="addTask()">
+
+  <table>
+    <tr>
+      <td>Description: </td>
+      <td>
+        <input type="text" size="30" formControlName="description"
+        [ngClass]="{'error': isCtrlInvalid('description')}">
+        Valid: {{baseForm.get('description')?.valid}}
+      </td>
+    </tr>
+    <tr>
+      <td>Priority: </td>
+      <td>
+        <select formControlName="priority">
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>          
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Due Date: </td>
+      <td>
+        <input type="date" formControlName="dueDate"
+        [ngClass]="{'error': isCtrlInvalid('dueDate')}">
+        Valid: {{baseForm.get('dueDate')?.valid}}
+      </td>
+    </tr>
+    <br>
+
+    <tr>
+      <td></td>
+      <td><button type="submit" [disabled]="isInvalid()">Submit</button></td>
+      <!-- <td><button type="button" (click)="addTask()">Add Task</button></td> -->
+    </tr>
+
+  </table>
+
+
+  @if (taskList.controls.length <= 0) {
+    <h3>your task list is empty!</h3>
+  }@else {
+    <hr>
+    <table>
+      <thead>
+        <tr>
+          <th>Current tasks</th>
+        </tr>
+      </thead>
+      <!-- binding the entire formarray to html -->
+      <tbody formArrayName="taskList">
+        @for (item of taskList.controls; let idx = $index; track item) {
+          <!-- each specific row in the html will contain a item formgroup bsaed on idx-->
+          <tr [formGroupName]="idx">
+            @if (item.get('priority')?.value == 'complete') {
+            <td>{{idx + 1}}</td>
+
+            <!-- Display task data only -->
+            <!-- Access form controls within each item (FormGroup) -->
+              <td>
+                <div>{{ item.get('description')?.value }}</div>
+              </td>
+              <td>
+                <div>{{ item.get('priority')?.value }}</div>
+              </td>
+              <td>
+                <div>{{ item.get('dueDate')?.value }}</div>
+              </td>
+
+            }@else {
+            <td>{{idx + 1}}</td>
+            <!-- Display task data while allowing edits -->
+            <td>
+              <input type="text" size="30" formControlName="description">
+            </td>
+            <td>
+              <select formControlName="priority">
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>          
+              </select>
+            </td>
+            <td>
+              <input type="date" formControlName="dueDate">
+            </td>
+
+            <td>
+              <button type="button" (click)="deleteTask(idx)">Delete</button>
+            </td>
+            <td>
+              <button type="button" (click)="completeTask(idx, 'complete')">Complete</button>
+            </td>
+          }
+          </tr>
+
+
+        }
+      </tbody>
+
+
+
+
+    </table>
+
+
+
+
+
+
+  }
+
+
+
+
+</form>
+
+
+

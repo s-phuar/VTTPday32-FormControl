@@ -1,0 +1,86 @@
+<h1>Purchase Order</h1>
+
+
+<form [formGroup]="form" (submit)="processForm()">
+  <h3>Form valid? Invalid:{{form.invalid}}, Valid: {{form.valid}}</h3>
+
+  <table>
+    <tr>
+      <td>Name: </td>
+      <td>
+        <input type="text" size="30" formControlName="name"
+          [ngClass]="{'error': isCtrlInvalid('name')}">
+          Valid: {{form.get('name')?.valid}}
+
+      </td>
+    </tr>
+    <tr>
+      <td>Address: </td>
+      <td>
+        <input type="text" size="30" formControlName="address"
+        [ngClass]="{'error': isCtrlInvalid('address')}">
+        Valid: {{form.get('address')?.valid}}
+      </td>
+    </tr>
+    <tr>
+      <td>Email: </td>
+      <td><input type="text" size="30" formControlName="email"
+        [ngClass]="{'error': isCtrlInvalid('email')}">
+        Valid: {{form.get('email')?.valid}}
+      </td>
+    </tr>
+    <tr>
+      <td>Delivery Date: </td>
+      <td>
+        <input type="date" formControlName="delivery"
+        [ngClass]="{'error': isCtrlInvalid('delivery')}">
+        Valid: {{form.get('delivery')?.valid}}
+      </td>
+    </tr>
+    <tr>
+      <td>Rush: </td>
+      <td><input type="checkbox" formControlName="rush"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <!-- use submit not button -->
+      <td><button type="submit" [disabled]="invalid()">Save</button></td>
+      <td><button type="button" (click)="addToCart()">Add Activity</button></td>
+    </tr>
+  </table>
+
+
+  @if (cart.controls.length <= 0) {
+    <h3>broke bitch</h3>
+
+  }@else {
+  <hr>
+  <table>
+    <thead>
+      <tr>
+        <th>Line Items: </th>
+      </tr>
+    </thead>
+    <tbody formArrayName="lineItems">
+      @for (car of cart.controls; let idx = $index; track car) {
+      <tr [formGroupName]="idx">
+        <td>{{idx + 1}}</td>
+        <td>
+          <input type="text" size="20" formControlName="lineName" placeholder="item name">
+        </td>
+        <td>
+          <input type="number" size="5" formControlName="lineQty" placeholder="Qty">
+        </td>
+        <td>
+          <input type="number" size="5" formControlName="linePrice" placeholder="unit price">
+        </td>
+        <td>
+          <button type="button" (click)="deleteFromCart(idx)">X</button>
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+  }
+
+</form>
