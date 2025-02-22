@@ -16,12 +16,23 @@ export class AppComponent implements OnInit{
   protected baseForm !: FormGroup
   protected taskList !: FormArray
 
+  // Accessing FormArray `taskList`
+  //testing access
+  protected testTaskList !: FormArray
+
+
+
+
+
   //class constructor for component that is called before ngOnHInit, constructor injection
   constructor() {console.info('in constructor: ')}
 
   ngOnInit(): void {
     //create empty form on start
     this.baseForm = this.createForm()
+
+    //************************testing access
+    this.testTaskList= this.baseForm.get('taskList') as FormArray;
 
     //load tasklist from local storage -> DevTools/application
     const savedTaskList = localStorage.getItem('taskList');
@@ -62,6 +73,14 @@ export class AppComponent implements OnInit{
   protected addTask(){
     this.taskList.push(this.processForm())
     console.info('current task list: ', this.taskList)
+  //****************testing access
+    console.info('current test task list: ', this.testTaskList)
+  //****************testing access
+    for (let fg = 0; fg < this.testTaskList.controls.length; fg ++){
+      const descriptionValue = this.testTaskList.controls[fg].get('description')?.value;
+      console.log(`Task ${fg + 1}: ${descriptionValue}`);
+    }
+
     // this.baseForm.reset()
 
     //saving to localstorage
