@@ -1,0 +1,5 @@
+# dont copy files from local computer into memory
+# put irrelevant files to reduce build time
+node_modules
+dist
+.angular

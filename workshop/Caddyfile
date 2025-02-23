@@ -4,6 +4,7 @@
     format console
   }
 
+  // should be updated, check takehome folder instead
   root * ./browser
   try_files {path} {path}/index.html =404
   file_server
